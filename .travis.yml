@@ -1,4 +1,11 @@
 language: node_js
 node_js: node
-services: 
+services:
 - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: gE7PKVDt3dg7QPKnClrL5qnTgIoOYeM0mqd7I2dwn6weenBQpHf9qosy4OLBGM7BZHu6//xcEWo6rjgty3iA5hl2lbjdJLzGt75f8/Z+gv9jUSttfcbgS2sxO3Fb2ui7JQEIAZXHLTiYaSAzizfuOD4Dp/zaTZLMI9YhNJ5YTY4KhHblvAnMGm+PKuc7z5Ojx5EPsAMxWKgTiAHTfPzVqUlObbyZTA3CZIrKuZP8A3IimR6CgB4g9cA8U++c6liRjq+eq6Gt+ZPI4xpbuZCpMC6OWGmpOhDsQf4BMdWJOr/6BMGre2M132Jml9cN/TywE06oY6zrG3XEcxRPbH6wI3JMriaIKvI8nNMBHeUITUtGorztNBViXX+knX13M4/IwV6oUDuhZCWvG6sOU9QBpZgAXvmgoS9WrD2Gajy8NfuyZ1qr+39b2jryrCh6QTtwoMoyJ4FcEmxD4maV52ytMQ/Q96ACy0rs3GS2kfCxv5tFt02yc2/rK6v0DxA6B75SG2jvWgO2RB3ZAWfIRAR76FHJ66LCCVB1VMv7XVzqbvMvSRfxnzZZDelzmw882RyqYJH5cLf36B/f2URwyj7y3C8qKC+vmh4AdI13eD4LEXNe4qPgyJHYusTasEAVyBZoIZCQ2NJeHukwKucz9kCI/7i3/lEGXt4aYb3026Nisgo=
+  app: aqueous-bayou-98177
+  on:
+    repo: QamT/NodeCapstone
