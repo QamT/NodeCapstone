@@ -4,7 +4,9 @@ const mongoose = require('mongoose'),
       { Project } = require('./project'),
       { Challenge } = require('./challenge'),
       { challengeNum } = require('./challengeNum'),
-      { Note } = require('./note');
+      { Note } = require('./note'),
+      { hashSync, compareSync } = require('bcrypt-nodejs'),
+      jwt = require('jsonwebtoken');
 
 const userSchema = new Schema({
   _id: { type: mongoose.Schema.ObjectId },
@@ -30,13 +32,49 @@ const userSchema = new Schema({
   notes: { type: mongoose.Schema.ObjectId, ref: 'Note'}
 });
 
-userSchema.methods.serialize = function() {
-  return {
-    id: this._id,
-    username: this.username,
-    name: `${this.name.firstName} ${this.name.lastName}`
+userSchema.pre('save', function(next) {
+  if (this.isModified('password')) {
+    this.password = this.hashPassword(this.password);
+  }
+  next();
+});
+
+userSchema.methods = {
+  hashPassword(password) {
+    return hashSync(password);
+  },
+  authenticateUser(password) {
+    return compareSync(password, this.password);
+  },
+  createAuthToken() {
+    return jwt.sign(
+      {
+        user: this.serialize()
+      },
+      process.env.JWT_SECRET,
+      {
+        subject: this.username,
+        expiresIn: process.env.JWT_EXPIRY
+      }
+    )
+  },
+  serializeAuth() {
+    return {
+      id: this._id,
+      username: this.username,
+      name: `${this.name.firstName} ${this.name.lastName}`,
+      token: `JWT ${this.createAuthToken()}`
+    }
+  },
+  serialize() {
+    return {
+      id: this._id,
+      username: this.username,
+      name: `${this.name.firstName} ${this.name.lastName}`
+    }
   }
 };
+
 
 const User = mongoose.model('User', userSchema);
 

@@ -6,8 +6,7 @@ const challengeSchema = new Schema({
   title: String,
   num: Number,
   requirements: [ String ],
-  progress: { type: String, Default: ''},
-  user: { type: mongoose.Schema.ObjectId, ref: 'User'}
+  progress: { type: String, Default: ''}
 });
 
 challengeSchema.methods.serialize = function() {

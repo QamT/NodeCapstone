@@ -10,7 +10,7 @@ const techSchema = new Schema({
     enum: ['red', 'yellow', 'green'],
     required: true
   },
-  users: { type: mongoose.Schema.ObjectId, ref: 'User'}
+  user: { type: mongoose.Schema.ObjectId, ref: 'User'}
 });
 
 techSchema.methods.serialize = function() {

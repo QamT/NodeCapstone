@@ -3,7 +3,7 @@ const mongoose = require('mongoose'),
       { User } = require('./user');
 
 const challengeNumSchema = new Schema({
-  num: Number,
+  num: { type: Number, default: 1 },
   user: { type: mongoose.Schema.ObjectId, ref: 'User'}
 });
 
