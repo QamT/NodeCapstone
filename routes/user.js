@@ -4,7 +4,7 @@ const express = require('express'),
       { User } = require('../models/user'),
       { check, validationResult } = require('express-validator/check');
 
-router.get('/users', async(req, res) => {
+router.get('/signup', async(req, res) => {
   let users = await User.find();
   // let data = users.map(user => user.serialize());
   res.status(200).json({ users });
@@ -41,7 +41,8 @@ router.post('/users', [
           lastName
         }
       });
-      res.status(201).json(user.serialize());
+      // await user.save();
+      res.status(201).json(user.serializeAuth());
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
