@@ -5,7 +5,7 @@ module.exports = {
   
   getChallenge: async(req, res) => {
     try {
-      let num = await ChallengeNum.findOne()
+      let num = await ChallengeNum.find({ user: req.user.id })
                 .then(num => num.serialize());
       let challenge = await Challenge.find({ num });
       res.json(challenge);
@@ -31,7 +31,7 @@ module.exports = {
 
   updateChallenge: async(req, res) => {
     try {
-      let number = await ChallengeNum.findOne();
+      let number = await ChallengeNum.findOne({ user: req.user.id });
       number.num = number.num + 1;
       if(number.num > 10) return res.status(300).json('challenges finished, will add more');
 

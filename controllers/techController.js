@@ -5,7 +5,7 @@ module.exports = {
 
   getTech: async(req, res) => {
     try {
-      let techs = await Tech.find();
+      let techs = await Tech.find({ user: req.user.id });
       let data = techs.map(tech => tech.serialize());
       res.send({ techs });
     } catch (err) {
@@ -23,7 +23,8 @@ module.exports = {
       let tech = await Tech.create({
         title,
         info,
-        check
+        check,
+        user: req.user.id
       });
       res.status(200).json(tech);
     } catch (err) {

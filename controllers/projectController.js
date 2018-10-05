@@ -5,7 +5,7 @@ module.exports = {
 
   getProjects: async(req, res) => {
     try {
-      let projects = await Project.find();
+      let projects = await Project.find({ user: req.user.id });
       projects = projects.map(project => project.serialize());
       res.json(projects);
     } catch (err) {
@@ -23,7 +23,8 @@ module.exports = {
       let project= await Project.create({
         title,
         description,
-        progress
+        progress,
+        user: req.user.id
       });
       res.json(project.serialize());
     } catch (err) {

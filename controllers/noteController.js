@@ -5,7 +5,7 @@ module.exports = {
 
   getNote: async(req, res) => {
     try {
-      let notes = await Note.find();
+      let notes = await Note.find({ user: req.user.id });
       notes = notes.map(note => note.serialize());
       res.json(notes);
     } catch (err) {
@@ -23,9 +23,10 @@ module.exports = {
       let note = await Note.create({
         title,
         log,
-        date
+        date,
+        user: req.user.id
       });
-      res.json(note.serialize());
+      res.status(201).json(note.serialize());
     } catch (err) {
       res.status(500).json({ err });
     }
