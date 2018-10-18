@@ -1,5 +1,7 @@
 const { Project } = require('../models/project'),
-      { validationResult } = require('express-validator/check');
+      { validationResult } = require('express-validator/check'),
+      cloudinary = require('cloudinary'),
+      { storage } = require('../imgMiddleware');
 
 module.exports = {
 
@@ -7,7 +9,7 @@ module.exports = {
     try {
       let projects = await Project.find({ user: req.user.id });
       projects = projects.map(project => project.serialize());
-      res.json(projects);
+      res.render('projects', { data: projects});
     } catch (err) {
       res.status(500).json({ err });
     }
@@ -17,16 +19,23 @@ module.exports = {
     const errors = validationResult(req);
     if(!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
 
-    const { title, description, progress } = req.body;
+    const { title, description = '', progress } = req.body;
+    const img = {
+      url: req.file ? req.file.url : '',
+      id: req.file ? req.file.public_id.split('/')[1] : ''
+    }
+    
 
     try {
-      let project= await Project.create({
+      let project = await Project.create({
+        _id: new mongoose.Types.ObjectId(),
         title,
         description,
+        img,
         progress,
         user: req.user.id
       });
-      res.json(project.serialize());
+      res.redirect('/project');
     } catch (err) {
       res.status(500).json({ err });
     }
@@ -43,7 +52,7 @@ module.exports = {
         project[key] = req.body[key];
       });
       let updatedNote = await project.save().then(note => note.serialize());
-      res.json(updatedNote);
+      res.redirect('/project');
     } catch (err) {
       res.status(500).json({ err });
     }
@@ -51,7 +60,15 @@ module.exports = {
 
   deleteProject: async(req, res) => {
     try {
-      let project = await Project.findByIdAndRemove(req.params.id);
+      const project = await Project.findById(req.params.id);
+    
+      if (project.img.url) {
+        const imageId = `nodeapp/${project.img.id}`;
+        await storage.cloudinary.uploader.destroy(imageId);
+        // let result = await cloudinary.v2.api.resources({ type: 'upload', prefix: 'nodeapp/' });
+      }
+
+      await project.remove();
       res.json(`${project.title} was removed`);
     } catch (err) {
       res.status(500).json({ err });

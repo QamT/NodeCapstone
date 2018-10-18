@@ -6,8 +6,9 @@ module.exports = {
   getTech: async(req, res) => {
     try {
       let techs = await Tech.find({ user: req.user.id });
-      let data = techs.map(tech => tech.serialize());
-      res.send({ techs });
+      // let data = techs.map(tech => tech.serialize());
+      // res.json(data);
+      res.render('tech', { data: techs });
     } catch (err) {
       res.status(500).json({ error: `${err}`});
     }
@@ -26,7 +27,7 @@ module.exports = {
         check,
         user: req.user.id
       });
-      res.status(200).json(tech);
+      res.redirect('/tech');
     } catch (err) {
       res.status(500).json({ error: `${err}`});
     }
@@ -48,8 +49,21 @@ module.exports = {
       Object.keys(req.body).forEach(key => {
         tech[key] = req.body[key];
       });
+      await tech.save();
+      res.redirect('/tech');
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  },
 
-      res.json(await tech.save());
+  updateProgress: async(req, res) => {
+    try {
+      let tech = await Tech.findById(req.params.id);
+      tech.check = req.body.check;
+
+      await tech.save();
+
+      res.redirect('/tech');
     } catch (err) {
       res.status(500).json({ err });
     }

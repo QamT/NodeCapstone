@@ -1,14 +1,15 @@
 const { Challenge } = require('../models/challenge');
-const { ChallengeNum } = require('../models/challengeNum');
+const { User } = require('../models/user');
 
 module.exports = {
   
   getChallenge: async(req, res) => {
     try {
-      let num = await ChallengeNum.find({ user: req.user.id })
-                .then(num => num.serialize());
-      let challenge = await Challenge.find({ num });
-      res.json(challenge);
+      let user = await User.findById(req.user.id);
+      let challenge = await Challenge.findOne({ num: user.challengeNum });
+      if(!challenge) return res.render('challenge', { data: `You've completed all your challenges, more will be added soon.` });
+
+      res.render('challenge', { data: challenge.serialize() });
     } catch (err) {
       res.status(500).json({ err });
     }
@@ -16,28 +17,29 @@ module.exports = {
 
   // addChallenge: async(req, res) => {
   //   try {
-  //     const { title, num, requirements, progress = '' } = req.body;
+  //     const { title, description, num, examples, progress = '' } = req.body;
   //     let newChallenge = await Challenge.create({
   //       title, 
+  //       description,
   //       num,
-  //       requirements,
+  //       examples,
   //       progress
   //     });
   //     res.json(newChallenge.serialize());
   //   } catch (err) {
   //     res.status(500).json({ err });
   //   }
-  // }
+  // },
 
   updateChallenge: async(req, res) => {
     try {
-      let number = await ChallengeNum.findOne({ user: req.user.id });
-      number.num = number.num + 1;
-      if(number.num > 10) return res.status(300).json('challenges finished, will add more');
-
-      await number.save();
-      let challenge = await Challenge.find({ num: number.num });
-      res.json(challenge);
+      let user = await User.findById(req.user.id);
+      let userNum = user.challengeNum;
+      user.challengeNum = user.challengeNum + 1;
+      if(userNum > 3) return res.redirect('/challenge');
+      await user.save();
+      
+      res.redirect('/challenge');
     } catch (err) {
       res.status(500).json({ err });
     }
