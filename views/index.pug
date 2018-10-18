@@ -1,21 +1,17 @@
-include ./mixins/_doc.pug
-
-+doc
-body
-  h1 Hello World
-  script(src='/dist/App.bundle.js')
-
-
-
-//- doctype html
-//- html(lang='en')
-//-   head
-//-     meta(name='viewport' content='width=device-width, initial-scale=1')
-//-     title #{title}
-//-     link(rel='stylesheet' href='/dist/style.css')
-
-
-
+doctype html
+html(lang='en')
+  head
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title #{title}
+    link(rel='stylesheet' href='/dist/style.css') 
   body
-    h1 Hello World
+    Main
+      section.hero
+        header 
+          h1.hero__header Developers
+          h3.hero__sub-header visualize your progress and set goals
+        .hero__btn
+          a(href='/signup' title='sign up').btn.btn--yellow Sign Up
+          a(href='/login' title='log in').btn.btn--blue Login
     script(src='/dist/App.bundle.js')
+

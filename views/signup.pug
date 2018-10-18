@@ -1,0 +1,78 @@
+include ./mixins/_doc.pug
+
+doctype html
+html(lang='en')
+  head
+    +doc('Registration')
+  body.signup
+    if err.length !== 0
+      -let userNameErr = ''
+      -let passwordErr = ''
+      -let firstNameErr = ''
+      -let lastNameErr = ''
+      each error in err 
+        -userNameErr = error.param === 'username' ? error.msg : userNameErr
+        -passwordErr = error.param === 'password' ? error.msg : passwordErr
+        -firstNameErr = error.param === 'firstName' ? error.msg : firstNameErr
+        -lastNameErr = error.param === 'lastName' ? error.msg : lastNameErr
+      main(role='main').form-container
+        form(action='/api/users' method='POST').user-form
+          fieldset
+            .user-form__header
+              legend.user-form__title Sign kkk
+              a(href='/login').user-form__title.user-form__title--secondary Sign In
+            div.user-form__label
+              label(for='username') Username
+              if (userNameErr)
+                input(type='text' id='username' name='username' placeholder='Must have at least 6 characters' required).error
+                p=userNameErr
+              else 
+                input(type='text' id='username' name='username' placeholder='Must have at least 6 characters' required)
+            div.user-form__label
+              label(for='password') Password
+              if (passwordErr)
+                input(type='text' id='password' name='password' placeholder='Must have at least 8 characters' required).error
+                p=passwordErr
+              else 
+                input(type='text' id='password' name='password' placeholder='Must have at least 8 characters' required)
+            div.user-form__label
+              label(for='firstName') First Name
+              if (firstNameErr)
+                input(type='text' id='firstName' name='firstName' placeholder='John' autocapitalize='true' required).error
+                p=firstNameErr
+              else 
+                input(type='text' id='firstName' name='firstName' placeholder='John' autocapitalize='true' required)
+            div.user-form__label
+              label(for='lastName') Last Name
+              if (lastNameErr)
+                input(type='text' id='lastName' name='lastName' placeholder='Doe' autocapitalize='true' required).error
+                p=lastNameErr
+              else 
+                input(type='text' id='lastName' name='lastName' placeholder='Doe' autocapitalize='true' required)
+            button(type='submit').user-form__btn Sign Up
+            a(href='/signup').user-form__clear Clear
+    else 
+      main(role='main').form-container
+        if error.length !== 0
+          div(tabindex=0).msg-box.msg-box--error 
+            h3(aria-live='polite')=error
+        form(action='/api/users' method='POST').user-form
+          fieldset
+            .user-form__header
+              legend.user-form__title Sign Up
+              a(href='/login').user-form__title.user-form__title--secondary Log In
+            div.user-form__label
+              label(for='username') Username
+              input(type='text' id='username' name='username' placeholder='Must have at least 6 characters' required)
+            div.user-form__label
+              label(for='password') Password
+              input(type='text' id='password' name='password' placeholder='Must have at least 8 characters' required)
+            div.user-form__label
+              label(for='firstName') First Name
+              input(type='text' id='firstName' name='firstName' placeholder='John' autocapitalize='true' required)
+            div.user-form__label
+              label(for='lastName') Last Name
+              input(type='text' id='lastName' name='lastName' placeholder='Doe' autocapitalize='true' required)
+            button(type='submit').user-form__btn Sign Up
+            a(href='/signup').user-form__clear Clear
+    script(src='/dist/App.bundle.js')

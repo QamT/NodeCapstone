@@ -1,0 +1,31 @@
+include ./mixins/_doc.pug
+include ./mixins/_nav.pug
+
+doctype html
+html(lang='en')
+  head
+    +doc('Challenge')
+  body.challenge__body
+    +nav(1)
+    .challenge
+      h2 Today's Challenge
+      - let challenge = data;
+      if typeof challenge === 'string'
+        .challenge__card
+          p=challenge
+      else 
+        .challenge__card 
+          img(src=`${challenge.imageUrl}` alt='project image')
+          .challenge__card-info
+            h3=challenge.title
+            p=challenge.description
+            .challenge__card-info-container
+              p Examples:
+              ul
+                each example in challenge.examples
+                  li=example  
+              form(action='/challenge' method='POST')
+                input(type='hidden' name='challengeNum' value=`${challenge.num}`)    
+                button(type='submit' title='next challenge')
+                  i.fas.fa-check
+    script(src='/dist/App.bundle.js')

@@ -1,0 +1,31 @@
+include ./mixins/_doc.pug
+include ./mixins/_nav.pug
+include ./mixins/_techForm.pug
+
+doctype html
+html(lang='en')
+  head
+    +doc('Techs')
+  body.tech__body
+    +nav(0)
+    button.tech__add add tech
+    .modal 
+      .modal-content
+        +techForm
+    - let techs = data
+    ul 
+      each tech, index in techs 
+        li.tech
+          h2(contenteditable='true')=tech.title
+          p(contenteditable='true')=tech.info ? tech.info : 'info'
+          p=tech.check
+          a(href=`/tech/delete/${tech._id}`) X
+          form(action=`/tech/update/${tech._id}` method='POST')
+            input(type="hidden" name='title' value='')
+            input(type="hidden" name='info' value='')
+            button.tech__update(type='button') update
+          form.tech__progress(action=`/tech/${tech._id}`, method='POST')
+            input.tech__pin.tech__pin--red(type='radio' name='check' data-val=`${index}` value='red' title='rookie')
+            input.tech__pin.tech__pin--yellow(type='radio' name='check' data-val=`${index}` value='yellow' title='proficient')
+            input.tech__pin.tech__pin--green(type='radio' name='check' data-val=`${index}` value='green' title='expert')       
+    script(src='/dist/App.bundle.js')

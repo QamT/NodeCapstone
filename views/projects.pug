@@ -1,0 +1,38 @@
+include ./mixins/_nav.pug
+include ./mixins/_projectForm.pug
+
+doctype html
+html(lang='en')
+  head
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title Tech
+    link(rel='stylesheet' href='/dist/style.css') 
+  body
+    +nav(2)
+    h2 Projects
+    button.project__add add projects
+    .modal  
+      .modal-content
+        +projectForm
+    - let projects = data 
+    if projects.length === 0
+      p add projects
+    else 
+      ul 
+        each project, index in projects
+          li.project__card
+            if project.img.url
+              - let img = project.img
+              img(src=`${img.url}` alt='user image')
+            else  
+              p add img 
+            h2=project.title
+            p=project.description
+            a(href=`/project/${project.id}`) X
+            button.project__update update project 
+            .modal
+              .modal-content 
+                +projectForm(project)
+
+    script(src='/dist/App.bundle.js')
+
