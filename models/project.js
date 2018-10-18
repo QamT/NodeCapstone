@@ -3,11 +3,12 @@ mongoose = require('mongoose'),
       { User } = require('./user');
 
 const projectScema = new Schema({
+  _id: { type: mongoose.Schema.ObjectId },
   title: { type: String, required: true },
   description: { type: String, default: '' },
   img: {
-    type: String,
-    data: Buffer
+    url: String,
+    id: String
   },
   progress: {
     type: String,
@@ -19,6 +20,7 @@ const projectScema = new Schema({
 
 projectScema.methods.serialize = function() {
   return {
+    id: this._id,
     title: this.title,
     description: this.description,
     img: this.img,

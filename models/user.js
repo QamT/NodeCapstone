@@ -3,8 +3,6 @@ const mongoose = require('mongoose'),
       { Tech } = require('./tech'),
       { Project } = require('./project'),
       { Challenge } = require('./challenge'),
-      { challengeNum } = require('./challengeNum'),
-      { Note } = require('./note'),
       { hashSync, compareSync } = require('bcrypt-nodejs'),
       jwt = require('jsonwebtoken');
 
@@ -21,15 +19,11 @@ const userSchema = new Schema({
     trim: true,
     required: true,
   },
-  name: {
-    firstName: { type: String, required: true, trim: true},
-    lastName: { type: String, required: true, trim: true }
-  },
+  firstName: { type: String, required: true, trim: true},
+  lastName: { type: String, required: true, trim: true },
   techs: { type: mongoose.Schema.ObjectId, ref: 'Tech'},
   projects: { type: mongoose.Schema.ObjectId, ref: 'Project'},
-  challenges: { type: mongoose.Schema.ObjectId, ref: 'Challenge'},
-  challengeNum: { type: mongoose.Schema.ObjectId, ref: 'ChallengeNum'},
-  notes: { type: mongoose.Schema.ObjectId, ref: 'Note'}
+  challengeNum: { type: Number, default: 1 }
 });
 
 userSchema.pre('save', function(next) {
@@ -62,15 +56,15 @@ userSchema.methods = {
     return {
       id: this._id,
       username: this.username,
-      name: `${this.name.firstName} ${this.name.lastName}`,
-      token: `JWT ${this.createAuthToken()}`
+      firstName: this.firstName,
+      token: this.createAuthToken()
     }
   },
   serialize() {
     return {
       id: this._id,
       username: this.username,
-      name: `${this.name.firstName} ${this.name.lastName}`
+      firstName: this.firstName
     }
   }
 };

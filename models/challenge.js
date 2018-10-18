@@ -4,17 +4,19 @@ const mongoose = require('mongoose'),
 
 const challengeSchema = new Schema({
   title: String,
+  description: String,
+  imageUrl: String,
   num: Number,
-  requirements: [ String ],
-  progress: { type: String, Default: ''}
+  examples: [ String ]
 });
 
 challengeSchema.methods.serialize = function() {
   return {
     title: this.title,
+    description: this.description,
+    imageUrl: this.imageUrl,
     num: this.num,
-    requirements: this.requirements,
-    progress: this.progress
+    examples: this.examples
   }
 };
 

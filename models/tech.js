@@ -3,7 +3,7 @@ const mongoose = require('mongoose'),
       { User } = require('./user');
 
 const techSchema = new Schema({
-  title: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
   info: { type: String, default: '' },
   check: {
     type: String,
