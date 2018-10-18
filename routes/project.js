@@ -1,16 +1,18 @@
 const express = require('express'),
       router = express.Router(),
       pc = require('../controllers/projectController'),
+      { parser } = require('../imgMiddleware'),
       { authJwt } = require('../auth/strategies'),
       { check, validationResult } = require('express-validator/check');
 
 router.get('/', authJwt, pc.getProjects);
-router.post('/',[
-  check('title').isLength({ min: 1 }).withMessage('Must have title'),
-  check('progress').isIn(['still working', 'done'])
-], authJwt, pc.addProject);
+
+router.post('/', parser.single('img'), [
+  check('title').isLength({ min: 1 }).withMessage('Must have title')
+  ], authJwt, pc.addProject);
+
 router.delete('/:id', authJwt, pc.deleteProject);
-router.put('/:id',[
+router.post('/:id',[
   check('title').isLength({ min: 1 }).withMessage('Must have title')
 ], authJwt, pc.editProject);
 

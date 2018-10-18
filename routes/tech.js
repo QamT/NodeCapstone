@@ -11,10 +11,12 @@ router.post('/add', [
   check('check').isIn(['red', 'yellow', 'green'])
 ], authJwt, tc.addTech)
 
-router.delete('/:id', authJwt, tc.deleteTech);
+router.delete('/delete/:id', authJwt, tc.deleteTech);
 
-router.put('/:id',[
+router.post('/update/:id',[
   check('title').isLength({ min: 1 }).withMessage('Title is required')
 ], authJwt, tc.updateTech);
+
+router.post('/:id', authJwt, tc.updateProgress);
 
 module.exports = router;

@@ -4,7 +4,7 @@ const express = require('express'),
       cc = require('../controllers/challengeController');
 
 router.get('/', authJwt, cc.getChallenge);
-// router.post('/:id', cc.addChallenge);
-router.put('/', authJwt, cc.updateChallenge);
+// router.post('/', cc.addChallenge);
+router.post('/', authJwt, cc.updateChallenge);
 
 module.exports = router;
