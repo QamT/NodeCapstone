@@ -1,0 +1,83 @@
+.topBar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  transition: border-bottom .4s;
+
+  &-container {
+    background: $main-color1;
+    height: 4.6rem;
+    padding: 0 .8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      color: white;
+      font-weight: 500;
+    }
+  }
+
+  &-colored {
+    border-bottom: 4px solid $secondary-color;
+  }
+
+  &-menu {
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 2rem;
+    transition: background .2s;
+
+    i {
+      color: #fff;
+    }
+
+    &:hover {
+      background: darken($main-color1, 5%);
+    }
+  }
+}
+
+.sideNav {
+  position: fixed;
+  background: #fff;
+  color: $dark;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20rem;
+  width: 3rem;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: width .18s ease-in-out;
+
+  &-expanded {
+    width: 8.6rem;
+  }
+
+  a {
+
+    color: $dark;
+    padding: 1.2rem 1rem;
+    transition: .3s;
+
+    i {
+      width: 1.2rem;
+      margin-right: .8rem;
+      text-align: center;
+    }
+
+    &.selected, &:hover {
+      background: $secondary-color;
+      color: white;
+    }
+  }
+}

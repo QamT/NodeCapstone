@@ -1,0 +1,10 @@
+.btn {
+  padding: .5rem .8rem;
+  border-radius: 6rem;
+  background: $secondary-color;
+  transition: .2s;
+
+  &:hover {
+    background: lighten($secondary-color, 25%);
+  }
+}

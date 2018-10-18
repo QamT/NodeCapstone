@@ -1,0 +1,41 @@
+.tech {
+  border: 1px solid black;
+  
+  h2 {
+    margin: 1px 0;
+  }
+
+  &__update {
+    border-radius: 5px;
+  }
+
+  &__progress {
+    display: flex;
+  }
+
+  &__pin {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 50%;
+    
+    &--red, 
+    &--yellow, 
+    &--green {
+      opacity: .5;
+    }
+
+    &--red {
+      background: red;
+    }
+
+    &--yellow {
+      background: yellow;
+    }
+
+    &--green {
+      background: green;
+    }
+  }
+}

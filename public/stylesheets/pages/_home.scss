@@ -1,0 +1,27 @@
+.hero {
+  height: 100vh;
+  overflow: hidden;
+  padding: 20px 60px;
+  background: linear-gradient(to right, #bbd2c5, #536976, #292e49);
+  display: grid;
+  grid-template-rows: 200px 1fr 1fr;
+
+  &__header, 
+  &__sub-header {
+    text-align: center;
+  }
+
+  &__header {
+    color: darkcyan;
+  }
+
+  &__sub-header {
+    color: darkgoldenrod;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

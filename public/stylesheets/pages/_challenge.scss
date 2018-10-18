@@ -1,0 +1,20 @@
+.challenge {
+  width: 44rem;
+  margin: 0 auto;
+  margin-top: 8rem;
+
+  &__body {
+    background: $main-color;
+  }
+
+  h2 {
+    margin-bottom: 2.6rem;
+    text-align: center;
+    font-weight: 500;
+    color: $grey;
+  }
+
+  p, li {
+    color: $secondary-grey;
+  }
+}

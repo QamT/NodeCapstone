@@ -1,0 +1,30 @@
+.msg-box {
+  border: 1px solid black;
+  width: 27rem;
+  margin-bottom: .2rem;
+  text-align: center;
+
+  &--error {
+    border: 1px solid red;
+    background: lighten(red, 45%);
+    color: red;
+  }
+
+  &--success {
+    border: 1px solid green;
+    background: lighten(green, 70%);
+    color: green;
+  }
+
+  @media only screen and(max-width: 720px) {
+    width: 60%;
+  }
+
+  @media only screen and(max-width: 520px) {
+    width: 70%;
+  }
+
+  @media only screen and(max-width: 360px) {
+    width: 80%;
+  }
+}

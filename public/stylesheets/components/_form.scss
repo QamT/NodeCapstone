@@ -1,0 +1,111 @@
+.user-form {
+  display: flex;
+  justify-content: center;
+  background: $main-color;
+  // padding: 4rem 6rem;
+  width: 27rem;
+  padding: 3rem 0;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+
+    &__title {
+      text-align: left;
+      font-weight: bold;
+      font-size: 1.4rem;
+      border-bottom: 3px solid $secondary-color;
+
+      &--secondary {
+        color: $grey;
+        text-align: right;
+        border-bottom: none;
+        transition: .3s;
+
+        &:hover {
+          color: #fff;
+          border-bottom: 3px solid $secondary-color;
+        }
+      }
+    }
+
+  ::placeholder {
+    color: $grey;
+    font-size: .8rem;
+  }
+
+  &__label:not(:first-child) {
+    margin-top: 1.6rem;
+  }
+
+  input {
+   background: $main-color;
+   border: none;
+   border-bottom: 1px solid $darker-white;
+
+   &.error {
+     border-bottom: 1px solid $error;
+   }
+
+   & + p {
+    margin: .3rem 0;
+    font-size: .8rem;
+    color: $error;
+   }
+
+   &:focus {
+     outline: none;
+     border-bottom: 3px solid $secondary-color;
+   }
+  }
+
+  input, &__btn {
+    color: #fff;
+    line-height: 1.4;
+  }
+
+  &__btn {
+    background: $secondary-color;
+    border: none;
+    width: 100%;
+    margin-top: 1.2rem;
+    transition: .2s;
+    line-height: 1.7;
+    font-size: 1rem;
+
+    &:hover {
+      background: darken($secondary-color, 30%);
+    }
+  }
+
+  &__clear {
+    display: block;
+    text-align: center;
+    font-size: .8rem;
+    margin-top: .4rem;
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media only screen and(max-width: 720px) {
+    width: 60%;
+  }
+
+  @media only screen and(max-width: 520px) {
+    width: 70%;
+    padding: 2rem 0;
+  }
+
+  @media only screen and(max-width: 360px) {
+    width: 80%;
+  }
+}
