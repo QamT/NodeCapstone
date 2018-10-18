@@ -1,0 +1,33 @@
+mixin projectForm(data=null)
+  if !data
+    form(action='/project' method='POST' enctype='multipart/form-data')
+      fieldset New Project
+        div
+          label(for='title') Title
+          input(type='text' id='title' name='title' placeholder='Title' required)
+        div
+          label(for='description') Description
+          textarea(id='description' name='description' placeholder='Description')
+        div 
+          label(for='working') still working
+          input(type='radio' id='working' name='progress' value='still working' required)
+          label(for='done') Done
+          input(type='radio' id='done' name='progress' value='done')
+        div 
+          input(type='file' name='img' accept='.jpg, .png' aria-label='image upload')
+        button(type='submit') Submit
+  else 
+    form(action=`/project/${data.id}` method='POST')
+      fieldset Update Project
+        div
+          label(for='title') Title
+          input(type='text' id='title' name='title' placeholder=`${data.title}` required)
+        div
+          label(for='description') Description
+          textarea(id='description' name='description' placeholder=`${data.description}`)
+        div 
+          label(for='working') still working
+          input(type='radio' id='working' name='progress' value='still working' required checked)
+          label(for='done') Done
+          input(type='radio' id='done' name='progress' value='done')
+        button(type='submit') Submit

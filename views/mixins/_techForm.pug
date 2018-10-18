@@ -1,0 +1,17 @@
+mixin techForm
+  form(action='/tech/add' method='POST')
+    fieldset New Tech
+      div
+        label(for='title') Username
+        input(type='text' id='title' name='title' placeholder='Title' required)
+      div
+        label(for='info') Info
+        textarea(id='info' name='info' placeholder='Info' required)
+      div 
+        label(for='rookie') Rookie
+        input(type='radio' id='rookie' name='check' value='red' required)
+        label(for='proficient') Proficient
+        input(type='radio' id='proficient' name='check' value='yellow')
+        label(for='expert') Expert
+        input(type='radio' id='expert' name='check' value='green')
+      button(type='submit') Submit

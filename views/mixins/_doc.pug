@@ -1,8 +1,6 @@
-mixin doc(head = {})
-  doctype html
-  html(lang='en')
-    head
-      meta(name='viewport' content='width=device-width, initial-scale=1')
-      title #{title}
-      link(rel='stylesheet' href='/dist/style.css')
-  
+mixin doc(title = '')
+  head
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title=title
+    link(rel='stylesheet' href='/dist/style.css')
+    
