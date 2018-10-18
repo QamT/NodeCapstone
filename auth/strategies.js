@@ -18,14 +18,23 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
     }
 });
 
+const cookieExtractor = req => {
+  let token = null;
+  if (req && req.cookies) token = req.cookies['jwt'];
+  return token;
+}
+
 const jwtStrategy = new JWTStrategy(
   {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+    jwtFromRequest: ExtractJwt.fromExtractors([
+      ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+      cookieExtractor
+    ]),
     secretOrKey: process.env.JWT_SECRET
   },
   async(payload, done) => {
     try {
-      const user = await User.findById(payload.user);
+      const user = await User.findById(payload.user.id);
       if (!user) {
         return done(null, false);
       } 
@@ -41,8 +50,10 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 const authLocal = passport.authenticate('local', {
-  session: false
-  // failureRedirect: '/login'
+  session: false,
+  successRedirect: '/tech',
+  failureRedirect: '/login',
+  failureFlash: 'Invalid username or password.'
 });
 
 const authJwt = passport.authenticate('jwt', {

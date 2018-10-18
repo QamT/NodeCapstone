@@ -4,12 +4,15 @@ const express = require('express'),
       { User } = require('../models/user');
 
 router.post('/login', authLocal, (req, res, next) => {
-  res.status(200).json(req.user.serializeAuth());
+  const token = req.user.createAuthToken();
+  res.cookie('jwt', token);
   next();
 });
 
 router.get('/hello', authJwt, (req, res) => {
   res.send('This is a private route');
 })
+
+//refresh route
 
 module.exports = router;
