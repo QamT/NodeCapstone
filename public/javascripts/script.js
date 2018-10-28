@@ -1,35 +1,159 @@
 import '../stylesheets/main.scss';
 
-// can't use let, const in the global scope for some reason. need to add plugin in webpack perhaps
 
-// let checks = document.querySelectorAll("input[type=radio]");
-
-// console.log(checks.length);
-// 
-// let checks = [...document.querySelectorAll('input[name="check"]')];
-
-[...document.querySelectorAll('input[name="check"]')].forEach(el => {
+[...document.getElementsByClassName('tech__card-pin')].forEach(el => {
   el.addEventListener('click', (e) => {
-    let num = el.getAttribute('data-val');
-    if (num) document.getElementsByClassName('tech__progress')[num].submit();
-})});
+    let index = el.getAttribute('data-val');
+    document.querySelectorAll(`[data-val="${index}"`).forEach(el => {
+      el.classList.remove('lighten');
+    });
 
-[...document.getElementsByClassName('tech__update')].forEach(el => {
+    el.classList.add('lighten');
+})});
+//fix lets, constant
+let addTech = document.getElementsByClassName('tech__card-btn--add')[0];
+
+if (addTech) addTech.addEventListener('click', () => {
+  let valueTitle = document.querySelector('.tech__card-title--add h3').innerHTML;
+  let valueInfo = document.querySelector('.tech__card--add .tech__card-info').innerHTML;
+  let list = addTech.closest('.tech__card-container');
+  let progressEl = [...list.children[0].children].find(el => el.classList.contains('lighten'));
+  let progressValue = progressEl ? progressEl.getAttribute('value') : 'red';
+
+  let headers = {
+    headers: {
+      'content-type': 'application/json',
+      Authorization: 'Bearer' + jwt
+    },
+    credentials: 'same-origin',
+    method: 'POST'
+  }
+
+  let href = `${addTech.getAttribute('data-url')}?title=${valueTitle}&info=${valueInfo}&check=${progressValue}`;
+
+  fetch(href, headers)
+    .then(data => {
+      location.reload();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+});
+
+[...document.getElementsByClassName('tech__card-btn--update')].forEach(el => {
   el.addEventListener('click', () => {
-    console.log(el.parentElement.children[0].getAttribute('value'));
-    let valueTitle = el.parentElement.parentElement.children[0].innerHTML;
-    let valueInfo = el.parentElement.parentElement.children[1].innerHTML;
-    el.parentElement.children[0].setAttribute('value', valueTitle);
-    el.parentElement.children[1].setAttribute('value', valueInfo);
-    el.closest('li form').submit();
+    let valueTitle = el.closest('li').children[0].children[2].innerHTML;
+    let valueInfo = el.closest('.tech__card-description').children[0].innerHTML;
+    let list = el.closest('.tech__card-container');
+    let progress = [...list.children[0].children].find(el => el.classList.contains('lighten'));
+
+    let headers = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Bearer' + jwt
+      },
+      credentials: 'same-origin',
+      method: 'POST'
+    }
+
+    let href = `${el.getAttribute('data-url')}?title=${valueTitle}&info=${valueInfo}&check=${progress.getAttribute('value')}`;
+
+    fetch(href, headers)
+      .then(data => {
+        return data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
   });
 });
 
-var jwt = document.cookie.split('=')[1];
+[...document.getElementsByClassName('tech__card-expand')].forEach(el => {
+  el.addEventListener('click', () => {
+    el.closest('li').children[1].classList.toggle('tech__card-description-expanded');
+  });
+});
 
-[...document.querySelectorAll('li > a')].forEach(el => {
+[...document.querySelectorAll('[contenteditable="true"]')].forEach((el, index) => {
+  el.addEventListener('focus', () => {
+    [...document.querySelectorAll('[contenteditable="true"]')].forEach(el => el.classList.remove('focus'));
+    el.classList.add('focus');
+  });
+  
+  el.addEventListener('keypress', (e) => {
+    let techCard = document.getElementsByClassName('tech__card')[index/2];
+    let max = e.target.nodeName === 'H3' ? 19 : 150;
+
+    if (el.innerHTML.length > max) e.preventDefault();
+    
+  });
+})
+
+var getCookie = () => {
+  return document.cookie.split('=')[1];
+}
+
+var jwt = getCookie();
+
+[...document.getElementsByClassName('tech__card-delete')].forEach((el, i) => {
   el.addEventListener('click', (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    let headers = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Bearer' + jwt
+      },
+      credentials: 'same-origin',
+      method: 'DELETE'
+    }
+
+    let href = el.getAttribute('href');
+    let li = el.closest('li');
+
+    fetch(href, headers)
+      .then(() => {
+        li.remove();
+        updateTechs(i);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  });
+});
+
+var updateTechs = (num) => {
+  [...document.getElementsByClassName('tech__card-pin')].forEach((el, i) => {
+    let index = parseInt(el.getAttribute('data-val'));
+    if (index > num) el.setAttribute('data-val', index - 1); 
+  });
+}
+
+//project
+
+var addProjectBtn = document.getElementsByClassName('project__add')[0],
+  updateProjectBtn = document.getElementsByClassName('project__card-update'),
+  deleteProject = document.getElementsByClassName('project__card-delete'),
+  updateImgBtn = document.getElementsByClassName('project__card-addImg');
+
+if(addProjectBtn) addProjectBtn.addEventListener('click', () => {
+  document.getElementsByClassName('modal')[0].classList.toggle('display-modal');
+});
+
+if (updateProjectBtn) [...updateProjectBtn].forEach(el => {
+  el.addEventListener('click', () => {
+    el.closest('li').children[3].classList.toggle('display-modal');
+  });
+});
+
+if (updateImgBtn) [...updateImgBtn].forEach(el => {
+  el.addEventListener('click', () => {
+    el.closest('li').children[3].classList.toggle('display-modal');
+  });
+});
+
+if (deleteProject) [...deleteProject].forEach(el => {
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
     let headers = {
       headers: {
         'content-type': 'application/json',
@@ -52,29 +176,21 @@ var jwt = document.cookie.split('=')[1];
   });
 });
 
-var addBtn = document.querySelector('.tech__add'),
-  addProjectBtn = document.getElementsByClassName('project__add')[0],
-  updateProjectBtn = document.getElementsByClassName('project__update');
-
-if (addBtn) addBtn.addEventListener('click', () => {
-  document.getElementsByClassName('modal')[0].classList.toggle('display-modal');
-});
-
-if(addProjectBtn) addProjectBtn.addEventListener('click', () => {
-  document.getElementsByClassName('modal')[0].classList.toggle('display-modal');
-});
-
-if (updateProjectBtn) [...updateProjectBtn].forEach((el, i) => {
-  el.addEventListener('click', () => {
-    document.querySelectorAll('ul .modal')[i].classList.toggle('display-modal');
-  });
-});
+//window
 
 window.addEventListener('click', (e) => {
   [...document.getElementsByClassName('modal')].forEach(el => {
     if(e.target === el) el.classList.toggle('display-modal');
   });
+  
+  if (e.target.contentEditable !== 'true') {
+    [...document.querySelectorAll('[contenteditable="true"]')].forEach(el => {
+      el.classList.remove('focus');
+   });
+  }
 });
+
+//nav
 
 var topBar = document.getElementsByClassName('topBar')[0];
 var topBarMenu = document.getElementsByClassName('topBar-menu')[0];
