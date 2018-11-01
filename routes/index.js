@@ -7,8 +7,8 @@ const users = require('./user'),
 
 module.exports = app => {
   app.use('/', home);
-  app.use('/api', users);
-  app.use('/api', auth);
+  app.use('/', users);
+  app.use('/', auth);
   app.use('/tech', techs);
   app.use('/challenge', challenges);
   app.use('/project', projects);

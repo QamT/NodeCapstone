@@ -1,22 +1,17 @@
 const express = require('express'),
       router = express.Router(),
       tc = require('../controllers/techController'),
-      { authJwt } = require('../auth/strategies'),
-      { check, validationResult } = require('express-validator/check');
+      { authJwt } = require('../auth/strategies');
 
 router.get('/', authJwt, tc.getTech);
-
-router.post('/add', [
-  check('title').isLength({ min: 1 }).withMessage('Title is required'),
-  check('check').isIn(['red', 'yellow', 'green'])
-], authJwt, tc.addTech)
-
+router.post('/add', authJwt, tc.addTech)
 router.delete('/delete/:id', authJwt, tc.deleteTech);
+router.post('/update/:id', authJwt, tc.updateTech);
 
-router.post('/update/:id',[
-  check('title').isLength({ min: 1 }).withMessage('Title is required')
-], authJwt, tc.updateTech);
-
-router.post('/:id', authJwt, tc.updateProgress);
+// Api
+router.get('/api', authJwt, tc.getTechApi);
+router.post('/api', authJwt, tc.addTech)
+router.delete('/api/:id', authJwt, tc.deleteTech);
+router.post('/api/:id', authJwt, tc.updateTech);
 
 module.exports = router;

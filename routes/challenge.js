@@ -7,4 +7,8 @@ router.get('/', authJwt, cc.getChallenge);
 // router.post('/', cc.addChallenge);
 router.post('/', authJwt, cc.updateChallenge);
 
+// Api
+router.get('/api', authJwt, cc.getChallengeApi);
+router.post('/api', authJwt, cc.updateChallengeApi);
+
 module.exports = router;
