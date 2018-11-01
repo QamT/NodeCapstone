@@ -51,7 +51,7 @@ passport.use(jwtStrategy);
 
 const authLocal = passport.authenticate('local', {
   session: false,
-  successRedirect: '/tech',
+  // successRedirect: '/tech',
   failureRedirect: '/login',
   failureFlash: 'Invalid username or password.'
 });
