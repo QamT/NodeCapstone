@@ -1,31 +1,52 @@
 include ./mixins/_doc.pug
 include ./mixins/_nav.pug
-include ./mixins/_techForm.pug
 
 doctype html
 html(lang='en')
   head
     +doc('Techs')
-  body.tech__body
+  body(data-module='Tech').tech
     +nav(0)
-    button.tech__add add tech
-    .modal 
-      .modal-content
-        +techForm
     - let techs = data
-    ul 
-      each tech, index in techs 
-        li.tech
-          h2(contenteditable='true')=tech.title
-          p(contenteditable='true')=tech.info ? tech.info : 'info'
-          p=tech.check
-          a(href=`/tech/delete/${tech._id}`) X
-          form(action=`/tech/update/${tech._id}` method='POST')
-            input(type="hidden" name='title' value='')
-            input(type="hidden" name='info' value='')
-            button.tech__update(type='button') update
-          form.tech__progress(action=`/tech/${tech._id}`, method='POST')
-            input.tech__pin.tech__pin--red(type='radio' name='check' data-val=`${index}` value='red' title='rookie')
-            input.tech__pin.tech__pin--yellow(type='radio' name='check' data-val=`${index}` value='yellow' title='proficient')
-            input.tech__pin.tech__pin--green(type='radio' name='check' data-val=`${index}` value='green' title='expert')       
+    main(role='main').tech__container
+      h2 Techs
+      ul 
+        each tech, index in techs 
+          li.tech__card
+            .tech__card-title
+              a(href=`/tech/delete/${tech._id}` aria-label='delete tech').tech__card-delete 
+               i.fas.fa-times
+              span(title='expand' tabindex=0).tech__card-expand
+              h3(contenteditable='true')=tech.title
+            .tech__card-description
+              p(contenteditable='true').tech__card-info=tech.info || 'info'
+              .tech__card-container
+                ul.tech__card-progress
+                  if tech.check === 'red'
+                    li.tech__card-pin.tech__card-pin--red.lighten(tabindex=0 value='red' title='rookie')
+                  else 
+                    li.tech__card-pin.tech__card-pin--red(tabindex=0 value='red' title='rookie')
+                  if tech.check === 'yellow'
+                    li.tech__card-pin.tech__card-pin--yellow.lighten(tabindex=0 value='yellow' title='proficient')
+                  else 
+                    li.tech__card-pin.tech__card-pin--yellow(tabindex=0 value='yellow' title='proficient')
+                  if tech.check === 'green'
+                    li.tech__card-pin.tech__card-pin--green.lighten(tabindex=0 value='green' title='expert') 
+                  else 
+                    li.tech__card-pin.tech__card-pin--green(tabindex=0 value='green' title='expert') 
+                button(type=button data-url=`/tech/update/${tech._id}`).tech__card-btn.tech__card-btn--update Update  
+        li.tech__card.tech__card--add
+            -let indexAdd = techs.length 
+            .tech__card-title.tech__card-title--add
+              span.tech__card-expandTip Click to expand&nearr;
+              span(title='expand' tabindex=0).tech__card-expand
+              h3(contenteditable='true') Add New Tech
+            .tech__card-description
+              p(contenteditable='true').tech__card-info Add Info
+              .tech__card-container
+                ul.tech__card-progress
+                  li.tech__card-pin.tech__card-pin--red(tabindex=0 value='red' title='rookie')
+                  li.tech__card-pin.tech__card-pin--yellow(tabindex=0 value='yellow' title='proficient')
+                  li.tech__card-pin.tech__card-pin--green(tabindex=0 value='green' title='expert') 
+                button(type=button data-url=`/tech/add`).tech__card-btn.tech__card-btn--add Add 
     script(src='/dist/App.bundle.js')

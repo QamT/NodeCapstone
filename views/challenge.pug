@@ -5,9 +5,9 @@ doctype html
 html(lang='en')
   head
     +doc('Challenge')
-  body.challenge__body
+  body.challenge
     +nav(1)
-    .challenge
+    main(role='main').challenge__container
       h2 Today's Challenge
       - let challenge = data;
       if typeof challenge === 'string'
@@ -15,7 +15,7 @@ html(lang='en')
           p=challenge
       else 
         .challenge__card 
-          img(src=`${challenge.imageUrl}` alt='project image')
+          img(src=`${challenge.imageUrl}` alt=`${challenge.title} image`)
           .challenge__card-info
             h3=challenge.title
             p=challenge.description

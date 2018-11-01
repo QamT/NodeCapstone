@@ -1,17 +1,40 @@
+include ./mixins/_doc.pug
+
 doctype html
 html(lang='en')
   head
-    meta(name='viewport' content='width=device-width, initial-scale=1')
-    title #{title}
-    link(rel='stylesheet' href='/dist/style.css') 
-  body
-    Main
-      section.hero
-        header 
-          h1.hero__header Developers
-          h3.hero__sub-header visualize your progress and set goals
-        .hero__btn
-          a(href='/signup' title='sign up').btn.btn--yellow Sign Up
-          a(href='/login' title='log in').btn.btn--blue Login
+    +doc(title)
+  body.hero
+    header(role='banner').hero__header
+      h2 App
+      a(href='https://github.com/QamT/NodeCapstone' target='_blank' rel='noopener noreferrer') API Documentation
+    section(aria-label='app info and actions').hero__main
+      .hero__intro
+        h1 Developers
+        h3 visualize your progress and track your goals
+      .hero__actions
+        a(href='/signup' title='sign up').btn.btn--transparent Sign Up
+        a(href='/login' title='log in').btn.btn--transparent Login
+      .hero__info
+        .card
+          h3 Techs
+          ul 
+            li View all your techs in one place
+            li Add techs and relevant info 
+            li Keep track of your progress
+        .card
+          h3 Challenges
+          ul 
+            li View challenges of various difficulty
+            li Complete challenges to update your skill
+            li More challenges will be added down the line
+        .card
+          h3 Projects
+          ul
+            li Visualize your projects all in on place
+            li add projects and relevant info
+            li Update projects when necessary
+    footer(role='contentinfo')
+      h4 Made by Qamar
     script(src='/dist/App.bundle.js')
 

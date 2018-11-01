@@ -1,38 +1,38 @@
+include ./mixins/_doc.pug
 include ./mixins/_nav.pug
 include ./mixins/_projectForm.pug
 
 doctype html
 html(lang='en')
   head
-    meta(name='viewport' content='width=device-width, initial-scale=1')
-    title Tech
-    link(rel='stylesheet' href='/dist/style.css') 
-  body
+    +doc('Projects') 
+  body(data-module='Project').project
     +nav(2)
-    h2 Projects
-    button.project__add add projects
-    .modal  
-      .modal-content
-        +projectForm
-    - let projects = data 
-    if projects.length === 0
-      p add projects
-    else 
+    main(role='main').project__container
+      h2 Projects
+      button(type='button' title='add project' aria-label='add project').project__add &plus;
+      .modal  
+        .modal-content
+          +projectForm
+      - let projects = data 
       ul 
-        each project, index in projects
+        each project in projects
           li.project__card
             if project.img.url
               - let img = project.img
-              img(src=`${img.url}` alt='user image')
+              img(src=`${img.url}` alt=`${project.title}`)
             else  
-              p add img 
-            h2=project.title
-            p=project.description
-            a(href=`/project/${project.id}`) X
-            button.project__update update project 
+              span.project__card-addImg
+                i(title='add image' tabindex=0).fas.fa-plus-circle
+            .project__card-info
+              h3=project.title
+              p=project.description
+            .project__card-actions
+              a(href=`/project/${project.id}` aria-label='delete project').project__card-delete
+                i.fas.fa-times
+              button.project__card-update Update
             .modal
               .modal-content 
                 +projectForm(project)
-
     script(src='/dist/App.bundle.js')
 

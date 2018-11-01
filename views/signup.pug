@@ -5,6 +5,8 @@ html(lang='en')
   head
     +doc('Registration')
   body.signup
+    header 
+      a(href='/') Node App
     if err.length !== 0
       -let userNameErr = ''
       -let passwordErr = ''
@@ -16,10 +18,10 @@ html(lang='en')
         -firstNameErr = error.param === 'firstName' ? error.msg : firstNameErr
         -lastNameErr = error.param === 'lastName' ? error.msg : lastNameErr
       main(role='main').form-container
-        form(action='/api/users' method='POST').user-form
+        form(action='/users' method='POST').user-form
           fieldset
             .user-form__header
-              legend.user-form__title Sign kkk
+              legend.user-form__title Sign Up
               a(href='/login').user-form__title.user-form__title--secondary Sign In
             div.user-form__label
               label(for='username') Username
@@ -50,29 +52,27 @@ html(lang='en')
               else 
                 input(type='text' id='lastName' name='lastName' placeholder='Doe' autocapitalize='true' required)
             button(type='submit').user-form__btn Sign Up
-            a(href='/signup').user-form__clear Clear
     else 
       main(role='main').form-container
         if error.length !== 0
           div(tabindex=0).msg-box.msg-box--error 
             h3(aria-live='polite')=error
-        form(action='/api/users' method='POST').user-form
+        form(action='/users' method='POST').user-form
           fieldset
             .user-form__header
               legend.user-form__title Sign Up
               a(href='/login').user-form__title.user-form__title--secondary Log In
-            div.user-form__label
+            .user-form__label
               label(for='username') Username
               input(type='text' id='username' name='username' placeholder='Must have at least 6 characters' required)
-            div.user-form__label
+            .user-form__label
               label(for='password') Password
-              input(type='text' id='password' name='password' placeholder='Must have at least 8 characters' required)
-            div.user-form__label
+              input(type='password' id='password' name='password' placeholder='Must have at least 8 characters' required)
+            .user-form__label
               label(for='firstName') First Name
               input(type='text' id='firstName' name='firstName' placeholder='John' autocapitalize='true' required)
-            div.user-form__label
+            .user-form__label
               label(for='lastName') Last Name
               input(type='text' id='lastName' name='lastName' placeholder='Doe' autocapitalize='true' required)
             button(type='submit').user-form__btn Sign Up
-            a(href='/signup').user-form__clear Clear
     script(src='/dist/App.bundle.js')
