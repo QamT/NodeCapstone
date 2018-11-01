@@ -3,12 +3,12 @@ const mongoose = require('mongoose'),
       { User } = require('./user');
 
 const techSchema = new Schema({
-  title: { type: String, required: true },
+  title: { type: String },
   info: { type: String, default: '' },
   check: {
     type: String,
     enum: ['red', 'yellow', 'green'],
-    required: true
+    default: 'red'
   },
   user: { type: mongoose.Schema.ObjectId, ref: 'User'}
 });

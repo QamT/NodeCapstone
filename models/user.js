@@ -37,9 +37,11 @@ userSchema.methods = {
   hashPassword(password) {
     return hashSync(password);
   },
+
   authenticateUser(password) {
     return compareSync(password, this.password);
   },
+
   createAuthToken() {
     return jwt.sign(
       {
@@ -52,6 +54,7 @@ userSchema.methods = {
       }
     )
   },
+
   serializeAuth() {
     return {
       id: this._id,
@@ -60,6 +63,7 @@ userSchema.methods = {
       token: this.createAuthToken()
     }
   },
+  
   serialize() {
     return {
       id: this._id,

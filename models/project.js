@@ -4,16 +4,11 @@ mongoose = require('mongoose'),
 
 const projectScema = new Schema({
   _id: { type: mongoose.Schema.ObjectId },
-  title: { type: String, required: true },
+  title: { type: String },
   description: { type: String, default: '' },
   img: {
     url: String,
-    id: String
-  },
-  progress: {
-    type: String,
-    enum: ['still working', 'done'],
-    required: true
+    id: { type: String }
   },
   user: { type: mongoose.Schema.ObjectId, ref: 'User'}
 });
