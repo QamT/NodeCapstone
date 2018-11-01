@@ -6,6 +6,10 @@
   img {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+
+    @media screen and (max-width: 1080px) {
+      width: 100%;
+    }
   }
 
   &-info {
@@ -43,6 +47,22 @@
             content: '|';
             margin-right: 1.2rem;
           }
+        }
+
+        @media screen and (max-width: 720px) {
+          li {
+            margin-left: .4rem;
+
+            &:not(:first-of-type)::before {
+              content: '|';
+              margin-right: .4rem;
+            }
+          }
+        }
+
+        @media screen and (max-width: 520px) {
+          display: flex;
+          flex-direction: column;
         }
       }
     }
