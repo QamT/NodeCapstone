@@ -6,12 +6,15 @@ const express = require('express'),
 router.post('/login', authLocal, (req, res, next) => {
   const token = req.user.createAuthToken();
   res.cookie('jwt', token);
+  res.status(200).redirect('/tech');
   next();
 });
 
-router.get('/hello', authJwt, (req, res) => {
-  res.send('This is a private route');
-})
+router.post('api/login', authLocal, (req, res, next) => {
+  const token = req.user.createAuthToken();
+  res.status(200).json({ token });
+  next();
+});
 
 //refresh route
 
