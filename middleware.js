@@ -7,7 +7,6 @@ const express = require('express'),
       helmet = require('helmet')
       passport = require('passport');
       
-
 module.exports = app => {
   app.use(cookieParser(process.env.SECRET));
   app.use(session({
