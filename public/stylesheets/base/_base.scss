@@ -41,3 +41,12 @@ a {
   }
 }
 
+[contenteditable='true'] {
+  outline: none;
+  cursor: pointer;
+}
+
+h1, h2 {
+  font-weight: 500;
+}
+
