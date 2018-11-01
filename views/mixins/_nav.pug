@@ -1,16 +1,17 @@
 mixin nav(num=0)
-  .topBar 
-    .topBar-container
-      span.topBar-menu 
-        i.fas.fa-bars
-      a(href='/login').btn Log out
-  nav(role='navigation' data-num=num).sideNav
-    a(href='/tech') 
-      i.fas.fa-code 
-      span Techs
-    a(href='/challenge') 
-      i.fas.fa-book-open 
-      span Challenge
-    a(href='/project') 
-      i.fas.fa-file
-      span Projects
+  div(data-module='Nav')
+    .topBar
+      .topBar-container
+        span(tabindex=0 aria-label='expand side menu').topBar-menu 
+          i.fas.fa-bars
+        a(href='/logout').btn Log out
+    nav(role='navigation' data-num=num).sideNav
+      a(href='/tech') 
+        i.fas.fa-code 
+        span Techs
+      a(href='/challenge') 
+        i.fas.fa-book-open 
+        span Challenge
+      a(href='/project') 
+        i.fas.fa-file
+        span Projects

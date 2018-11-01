@@ -1,33 +1,27 @@
 mixin projectForm(data=null)
   if !data
-    form(action='/project' method='POST' enctype='multipart/form-data')
-      fieldset New Project
-        div
+    form(action='/project' method='POST' enctype='multipart/form-data').user-form.user-form--project
+      fieldset 
+        legend.user-form__title New Project
+        .user-form__label
           label(for='title') Title
           input(type='text' id='title' name='title' placeholder='Title' required)
-        div
+        .user-form__label
           label(for='description') Description
-          textarea(id='description' name='description' placeholder='Description')
-        div 
-          label(for='working') still working
-          input(type='radio' id='working' name='progress' value='still working' required)
-          label(for='done') Done
-          input(type='radio' id='done' name='progress' value='done')
-        div 
+          textarea(id='description' name='description' maxlength='200' placeholder='Description')
+        .user-form__label.user-form__label-upload
           input(type='file' name='img' accept='.jpg, .png' aria-label='image upload')
-        button(type='submit') Submit
+        button(type='submit').user-form__btn Submit
   else 
-    form(action=`/project/${data.id}` method='POST')
-      fieldset Update Project
-        div
+    form(action=`/project/${data.id}` method='POST' enctype='multipart/form-data').user-form.user-form--project
+      fieldset
+        legend.user-form__title Update Project
+        .user-form__label
           label(for='title') Title
-          input(type='text' id='title' name='title' placeholder=`${data.title}` required)
-        div
+          input(type='text' id='title' name='title' value=`${data.title}` required)
+        .user-form__label
           label(for='description') Description
-          textarea(id='description' name='description' placeholder=`${data.description}`)
-        div 
-          label(for='working') still working
-          input(type='radio' id='working' name='progress' value='still working' required checked)
-          label(for='done') Done
-          input(type='radio' id='done' name='progress' value='done')
-        button(type='submit') Submit
+          textarea(id='description' name='description' maxlength='200')=data.description
+        .user-form__label.user-form__label-upload
+          input(type='file' name='img' accept='.jpg, .png' aria-label='image upload')
+        button(type='submit').user-form__btn Submit
