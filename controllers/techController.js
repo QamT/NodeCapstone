@@ -1,24 +1,18 @@
 const { Tech } = require('../models/tech');
-const { validationResult } = require('express-validator/check');
 
 module.exports = {
 
   getTech: async(req, res) => {
     try {
       let techs = await Tech.find({ user: req.user.id });
-      // let data = techs.map(tech => tech.serialize());
-      // res.json(data);
-      res.render('tech', { data: techs });
+      res.status(200).render('tech', { data: techs });
     } catch (err) {
       res.status(500).json({ error: `${err}`});
     }
   },
 
   addTech: async(req, res) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) return res.status(400).json({ error: errors.array()});
-
-    const { title, info, check } = req.body;
+    const { title = '', info = '', check = 'red'} = req.query;
 
     try {
       let tech = await Tech.create({
@@ -27,7 +21,7 @@ module.exports = {
         check,
         user: req.user.id
       });
-      res.redirect('/tech');
+      res.status(201).json(tech);
     } catch (err) {
       res.status(500).json({ error: `${err}`});
     }
@@ -36,9 +30,9 @@ module.exports = {
   deleteTech: async(req, res) => {
     try {
       let tech = await Tech.findByIdAndRemove(req.params.id);
-      res.json(`${tech.title} was removed`);
-    } catch (err) {
-      res.status(500).json({ error: `${err}` });
+      res.status(200).json(`${tech.title} was removed`);
+    } catch (error) {
+      res.status(500).json({ error });
     }
   },
 
@@ -46,27 +40,24 @@ module.exports = {
     try {
       let tech = await Tech.findById(req.params.id);
 
-      Object.keys(req.body).forEach(key => {
-        tech[key] = req.body[key];
+      Object.keys(req.query).forEach(key => {
+        tech[key] = req.query[key];
       });
-      await tech.save();
-      res.redirect('/tech');
-    } catch (err) {
-      res.status(500).json({ err });
+
+      let data = await tech.save();
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(500).json({ error });
     }
   },
 
-  updateProgress: async(req, res) => {
+  getTechApi: async(req, res) => {
     try {
-      let tech = await Tech.findById(req.params.id);
-      tech.check = req.body.check;
-
-      await tech.save();
-
-      res.redirect('/tech');
+      let techs = await Tech.find({ user: req.user.id });
+      res.status(200).json({ data: techs });
     } catch (err) {
-      res.status(500).json({ err });
+      res.status(500).json({ error: `${err}`});
     }
-  }
+  },
 }
 

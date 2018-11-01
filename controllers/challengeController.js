@@ -9,7 +9,7 @@ module.exports = {
       let challenge = await Challenge.findOne({ num: user.challengeNum });
       if(!challenge) return res.render('challenge', { data: `You've completed all your challenges, more will be added soon.` });
 
-      res.render('challenge', { data: challenge.serialize() });
+      res.status(200).render('challenge', { data: challenge.serialize() });
     } catch (err) {
       res.status(500).json({ err });
     }
@@ -43,5 +43,32 @@ module.exports = {
     } catch (err) {
       res.status(500).json({ err });
     }
-  }
+  },
+
+  getChallengeApi: async(req, res) => {
+    try {
+      let user = await User.findById(req.user.id);
+      let challenge = await Challenge.findOne({ num: user.challengeNum });
+      if(!challenge) return res.status(200).json({ message: `You've completed all your challenges, more will be added soon.` });
+
+      res.status(200).render({ data: challenge.serialize() });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  },
+
+  updateChallengeApi: async(req, res) => {
+    try {
+      let user = await User.findById(req.user.id);
+      let userNum = user.challengeNum;
+      user.challengeNum = user.challengeNum + 1;
+      if(userNum > 3) return res.status(200).json({ message: `You've completed all your challenges, more will be added soon.` });
+      await user.save();
+      let challenge = await Challenge.findOne({ num: user.challengeNum });
+      
+      res.status(200).json({ data: challenge.serialize() });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  },
 };

@@ -1,5 +1,4 @@
 const { Project } = require('../models/project'),
-      { validationResult } = require('express-validator/check'),
       cloudinary = require('cloudinary'),
       { storage } = require('../imgMiddleware');
 
@@ -9,22 +8,18 @@ module.exports = {
     try {
       let projects = await Project.find({ user: req.user.id });
       projects = projects.map(project => project.serialize());
-      res.render('projects', { data: projects});
+      res.status(200).render('projects', { data: projects});
     } catch (err) {
       res.status(500).json({ err });
     }
   },
 
   addProject: async(req, res) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
-
-    const { title, description = '', progress } = req.body;
+    const { title, description = '' } = req.body;
     const img = {
       url: req.file ? req.file.url : '',
       id: req.file ? req.file.public_id.split('/')[1] : ''
     }
-    
 
     try {
       let project = await Project.create({
@@ -32,7 +27,6 @@ module.exports = {
         title,
         description,
         img,
-        progress,
         user: req.user.id
       });
       res.redirect('/project');
@@ -42,16 +36,21 @@ module.exports = {
   },
 
   editProject: async(req, res) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
-
     try {
       let project = await Project.findById(req.params.id);
+      const { title, description = '' } = req.body;
 
-      Object.keys(req.body).forEach(key => {
-        project[key] = req.body[key];
-      });
-      let updatedNote = await project.save().then(note => note.serialize());
+      project['title'] = title;
+      project['description'] = description;
+
+      if (req.file) {
+        project['img'] = {
+          url: req.file.url,
+          id: req.file.public_id.split('/')[1] 
+        }
+      }
+
+      await project.save().then(note => note.serialize());
       res.redirect('/project');
     } catch (err) {
       res.status(500).json({ err });
@@ -69,9 +68,60 @@ module.exports = {
       }
 
       await project.remove();
-      res.json(`${project.title} was removed`);
+      res.status(200).json(`${project.title} was removed`);
     } catch (err) {
       res.status(500).json({ err });
     }
-  }
+  },
+
+  getProjectsApi: async(req, res) => {
+    try {
+      let projects = await Project.find({ user: req.user.id });
+      projects = projects.map(project => project.serialize());
+      res.status(200).json({ data: projects });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  },
+
+  addProjectApi: async(req, res) => {
+    const { title = 'Project', description = '' } = req.body;
+    const img = {
+      url: req.file ? req.file.url : '',
+      id: req.file ? req.file.public_id.split('/')[1] : ''
+    }
+
+    try {
+      let project = await Project.create({
+        _id: new mongoose.Types.ObjectId(),
+        title,
+        description,
+        img,
+        user: req.user.id
+      });
+      res.status(200).json({ data: project });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  },
+
+  editProjectApi: async(req, res) => {
+    try {
+      let project = await Project.findById(req.params.id);
+      Object.keys(req.body).forEach(key => {
+        project[key] = req.body[key];
+      })
+    
+      if (req.file) {
+        project['img'] = {
+          url: req.file.url,
+          id: req.file.public_id.split('/')[1] 
+        }
+      }
+
+      res.status(200).json({ data: await project.save() });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  },
 }
