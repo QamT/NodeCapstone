@@ -1,10 +1,19 @@
 .challenge {
-  width: 44rem;
-  margin: 0 auto;
-  margin-top: 8rem;
+  background: $main-color1;
+  
+  &__container {
+    width: 44rem;
+    margin: 0 auto;
+    margin-top: 8rem;
 
-  &__body {
-    background: $main-color;
+    @media screen and (max-width: 1080px) {
+      width: 70%;
+    }
+
+    @media screen and (max-width: 420px) {
+      width: 70%;
+      margin-left: 4rem;
+    }
   }
 
   h2 {
