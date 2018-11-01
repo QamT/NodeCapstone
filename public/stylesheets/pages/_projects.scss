@@ -1,0 +1,55 @@
+.project {
+  background: $main-color1;
+
+  ul {
+    text-align: center;
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+    margin-top: 8rem;
+    position: relative;
+
+    h2 {
+      margin: 3rem 0;
+      text-align: center;
+      font-weight: 500;
+      color: $grey;
+    }
+
+    @media screen and (max-width: 1080px) {
+      width: 85%;
+    }
+
+    @media screen and (max-width: 720px) {
+      width: 75%;
+    }
+
+    @media screen and (max-width: 340px) {
+      margin-left: 3rem;
+    }
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  &__add {
+   position: absolute;
+   right: 0;
+   padding: 0;
+   border: none;
+   width: 2.5rem;
+   height: 2.5rem;
+   background: $another-grey;
+   font-size: 2.2rem;
+   border-radius: 50%;
+   transition: .2s;
+
+   &:hover {
+     background: #fff;
+   }
+  }
+}

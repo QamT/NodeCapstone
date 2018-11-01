@@ -1,0 +1,29 @@
+include ./mixins/_doc.pug
+
+doctype html
+html(lang='en')
+  head
+   +doc('Login')
+  body.login
+    header 
+      a(href='/') Node App
+    main(role='main').form-container
+      if error.length !== 0
+        div(tabindex=0).msg-box.msg-box--error 
+          h3(aria-live='polite')=error
+      if msg.length !== 0
+        div(tabindex=0).msg-box.msg-box--success
+          h3(aria-live='polite')=msg
+      form(action='/login' method='POST').user-form
+        fieldset 
+          .user-form__header
+              legend.user-form__title Log In
+              a(href='/signup').user-form__title.user-form__title--secondary Sign Up
+          div.user-form__label
+            label(for='username') Username
+            input(type='text' id='username' name='username' placeholder='Username' required)
+          div.user-form__label
+            label(for='password') Password
+            input(type='password' id='password' name='password' placeholder='Password' required)
+          button(type='submit').user-form__btn Log In
+    script(src='/dist/App.bundle.js')

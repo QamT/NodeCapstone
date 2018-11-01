@@ -1,0 +1,29 @@
+.challenge {
+  background: $main-color1;
+  
+  &__container {
+    width: 44rem;
+    margin: 0 auto;
+    margin-top: 8rem;
+
+    @media screen and (max-width: 1080px) {
+      width: 70%;
+    }
+
+    @media screen and (max-width: 420px) {
+      width: 70%;
+      margin-left: 4rem;
+    }
+  }
+
+  h2 {
+    margin-bottom: 2.6rem;
+    text-align: center;
+    font-weight: 500;
+    color: $grey;
+  }
+
+  p, li {
+    color: $secondary-grey;
+  }
+}

@@ -1,0 +1,91 @@
+.project__card {
+  background: $dark;
+  display: inline-block;
+  border-radius: 5px;
+  max-width: 15.6rem;
+  min-width: 10rem;
+  margin-top: 3.2rem;
+  margin-right: 1.2rem;
+
+  img {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    @media screen and (max-width: 920px) {
+      width: 14.4rem;
+    }
+
+    @media screen and (max-width: 520px) {
+      width: 12.5rem;
+    }
+  }
+
+  &-info {
+
+    margin-left: .6rem;
+    margin-right: .6rem;
+
+    h3 {
+      color: $grey;
+      font-weight: 500;
+      margin: .4rem 0;
+    }
+
+    p {
+      color: $secondary-grey;
+      margin: 1.2rem 0;
+      font-size: .9rem;
+    }
+  }
+
+  &-actions {
+    display: flex; 
+    justify-content: space-between;
+
+    a {
+      color: $error;
+      font-size: 1.2rem;
+
+      i {
+        height: 100%;
+      }
+    }
+
+    button {
+      border: none;
+      background: $main-color;
+      font-size: .9rem;
+      color: #fff;
+      border-top: 1px solid $secondary-color;
+      border-left: 1px solid $secondary-color;
+      transition: .3s;
+
+      &:hover {
+        color: $dark;
+        background: #fff;
+      }
+    }
+  }
+
+  &-addImg {
+    display: flex;
+    justify-content: center;
+    padding: .8rem 0;
+    border-bottom: 1px solid $secondary-color;
+
+    i {
+      font-size: 1.8rem;
+      color: $secondary-grey;
+      transition: .1s;
+      cursor: pointer;
+
+      &:hover {
+        color: #fff;
+      }
+
+      &:focus {
+        transform: translateY(1px) scale(.95);
+      }
+    }
+  }
+}
