@@ -10,9 +10,14 @@
     background: $main-color1;
     position: fixed;
     padding: .8rem 0;
+    margin-bottom: .4rem;
 
     a:hover {
       text-decoration: underline;
+    }
+
+    @media screen and (max-width: 520px) {
+      padding: .4rem 0;
     }
   }
 }
