@@ -39,18 +39,18 @@ router.post('/users', v.validateUser, async(req, res) => {
     }
 });
 
-router.post('api/users', v.validateUser, async(req, res) => {
+router.post('/api/users', v.validateUser, async(req, res) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.json(errors.array());
+    return res.status(400).json(errors.array());
   } 
 
   let { username, password, firstName, lastName } = req.body;
 
   let user = await User.findOne({ username });
   if (user) {
-    return res.json('User is already registered');
+    return res.status(400).json('User is already registered');
   }
 
   try {
