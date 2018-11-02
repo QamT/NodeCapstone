@@ -5,7 +5,7 @@
     "dev": "webpack --mode development --watch",
     "build": "webpack --mode production",
     "test": "mocha --exit",
-    "dev1": "run-p watch dev",
+    "develop": "run-p watch dev",
     "start": "node ./app.js"
   },
   "devDependencies": {
