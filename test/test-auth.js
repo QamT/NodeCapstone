@@ -27,37 +27,37 @@ describe('User endpoints', function() {
     return User.remove({})
   });
 
-  describe('Sign up with valid input', function() {
-    it('should redirect user to login page', function() {
+  describe('Sign up with valid input', async function() {
+    await User.remove({});
+    it('should return user profile', function() {
       return chai
         .request(app)
-        .post('/users')
+        .post('/api/users')
         .send(testUser)
         .then(res => {
-          expect(res).to.have.status(200);
-          expect(res).to.redirect;
-          expect(res.redirects[0]).to.include('/login');
+          expect(res).to.have.status(201);
+          expect(res).to.be.json;
         })
     })
   });
   
   describe('Sign up with invalid input', function() {
-    it('should redirect user to signup page', function() {
+    it('should return errors', function() {
       testUser.username = 'short';
 
       return chai
         .request(app)
-        .post('/users')
+        .post('/api/users')
         .send(testUser)
         .then(res => {
-          expect(res).to.redirect;
-          expect(res.redirects[0]).to.include('/signup');
+          expect(res).to.have.status(400);
+          expect(res).to.be.json;
         })
     })
   });
 
   describe('Login in with valid credentials', function() {
-    it('should redirect user to tech page', function() {
+    it('should return an access token', function() {
       testUser.username = 'testUser';
 
       User.create({ 
@@ -71,30 +71,13 @@ describe('User endpoints', function() {
      
       return chai
           .request(app)
-          .post('/login')
+          .post('/api/login')
           .send({ username: testUser.username, password: testUser.password })
           .then(res => {
-            expect(res).to.redirect;
-            expect(res.redirects[0]).to.include('/tech');
-            expect(res).to.have.cookie('jwt');
             expect(res).to.have.status(200);
+            expect(res).to.be.json;
         })
       })
    });
-
-   describe('Login in with invalid credentials', function() {
-    it('should redirect user to login page', function() {
-
-      return chai
-        .request(app)
-        .post('/login')
-        .send({ username: 'false', password: testUser.password })
-        .then(res => {
-          expect(res).to.redirect;
-          expect(res.redirects[0]).to.include('/login');
-        })
-      })
-   });
-  
 });
 
