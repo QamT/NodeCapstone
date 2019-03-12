@@ -1,4 +1,4 @@
-# Node Capstone
+# Tech Organizer
 
 ![landing page](https://user-images.githubusercontent.com/36899100/47837152-f6ba0400-dd78-11e8-9a0d-a81334001ae6.png)
 
